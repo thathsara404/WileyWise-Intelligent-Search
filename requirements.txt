@@ -1,0 +1,4 @@
+flask
+openai
+sentence-transformers
+scipy

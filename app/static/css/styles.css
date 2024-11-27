@@ -1,0 +1,169 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+}
+
+h1 {
+    color: #2c3e50;
+}
+
+input {
+    width: 300px;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+div {
+    margin-top: 20px;
+}
+
+
+/* 
+    Answer Animation
+*/
+
+.hidden {
+    display: none;
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 
+    Header Animtion
+*/
+
+/* Title Styling */
+.rotating-title {
+    display: inline-block;
+    font-family: "Georgia", "Times New Roman", serif; /* Serif font for professional style */
+    font-size: 45px; /* Matches the size of the Wiley logo */
+    font-weight: bold; /* Bold letters */
+    color: #000000; /* Black text color */
+    letter-spacing: 2px; /* Slight spacing between letters */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Subtle shadow for a polished look */
+}
+
+/* Letter Animation */
+.rotating-title span {
+    display: inline-block;
+    opacity: 0; /* Hidden initially */
+    transform: scale(0.8); /* Slightly smaller initially */
+    animation: fadeInScale 1.5s ease-in-out forwards; /* Trigger animation */
+}
+
+/* Stagger the animation for each letter */
+.rotating-title span:nth-child(1) {
+    animation-delay: 0s;
+}
+.rotating-title span:nth-child(2) {
+    animation-delay: 0.3s;
+}
+.rotating-title span:nth-child(3) {
+    animation-delay: 0.6s;
+}
+.rotating-title span:nth-child(4) {
+    animation-delay: 0.9s;
+}
+.rotating-title span:nth-child(5) {
+    animation-delay: 1.2s;
+}
+.rotating-title span:nth-child(6) {
+    animation-delay: 1.5s;
+}
+.rotating-title span:nth-child(7) {
+    animation-delay: 1.8s;
+}
+.rotating-title span:nth-child(8) {
+    animation-delay: 2.1s;
+}
+.rotating-title span:nth-child(9) {
+    animation-delay: 2.4s;
+}
+
+/* Keyframes for fade-in and scaling animation */
+@keyframes fadeInScale {
+    0% {
+        opacity: 0; /* Completely invisible */
+        transform: scale(0.8); /* Slightly smaller */
+    }
+    50% {
+        opacity: 0.5; /* Partially visible */
+        transform: scale(1.1); /* Slightly larger */
+    }
+    100% {
+        opacity: 1; /* Fully visible */
+        transform: scale(1); /* Normal size */
+    }
+}
+
+.loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent gray */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050; /* Ensure it overlays other content */
+}
+
+#saved-conversations > li {
+    margin-bottom: 5px;
+}
+
+#saved-conversations > li:hover {
+    cursor: pointer;
+}
+
+/* Styles for the microphone button */
+.mic-btn {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    background-color: #007bff; /* Blue background */
+    color: white; /* White icon */
+    font-size: 24px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background-color 0.3s;
+}
+
+.mic-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.1); /* Slightly larger on hover */
+}
+
+.mic-btn:active {
+    transform: scale(0.9); /* Slightly smaller when clicked */
+}

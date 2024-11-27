@@ -1,0 +1,91 @@
+@startuml
+!theme plain
+
+actor User
+participant Frontend
+participant Backend
+participant "AI Logic" as AI
+participant "Redis: Redi-Search(KNN-based cosine similarity)" as Redis
+participant "External APIs (Open AI API)" as API
+participant "MongoDB" as DB
+
+' User Login Flow
+User -> Frontend: Login
+Frontend -> Backend: POST /login
+Backend -> DB: Authenticate User
+DB --> Backend: Return User
+Backend --> Frontend: Return User
+Frontend --> User: Display Main Page
+
+' Question Answering Flow
+alt User is Logged In
+
+    ' Retrieve Conversations Flow
+    User -> Frontend: View Saved Conversations
+    Frontend -> Backend: GET /conversations
+    Backend -> DB: Retrieve Conversations
+    DB --> Backend: Provide Conversations
+    Backend --> Frontend: Send Conversations
+    Frontend --> User: Display Conversations
+
+    User -> Frontend: Submit Question
+    Frontend -> Backend: POST /ask
+    Backend -> AI: Process Question
+    AI -> Redis: Find Matching Content
+
+    alt Found Matching Content
+        Redis --> AI: Return Matching Excerpt Embedding
+        AI --> Backend: Provide Matching Content
+        Backend -> AI: Find CacheD Answer
+        AI -> Redis: Find Cached Answer
+
+        alt Found Cached Answer
+            Redis --> AI: Return Cached Answer
+            AI --> Backend: Provide Cached Answer
+        else No Cached Answer
+            AI -> API: Prompt API for Answer
+            API --> AI: Answer (with Quiz JSON)
+            AI --> Backend: Provide Answer
+            Backend -> Redis: Cache Answer
+            Redis --> Backend: Acknowledge Cache
+        end
+    else No Matching Content
+        Redis --> AI: Return No Matching Content
+        AI --> Backend: Provide No Matching Content
+    end
+    Backend --> Frontend: Return Response
+    Frontend --> User: Display Result
+
+    ' Save Conversation Flow
+    User -> Frontend: Save Conversation
+    Frontend -> Backend: POST /save_conversation
+    Backend -> DB: Save Conversation
+    DB --> Backend: Acknowledge Save
+    Backend --> Frontend: Acknowledge Save
+
+    ' Delete Conversation Flow
+    User -> Frontend: Delete a Conversation
+    Frontend -> Backend: DELETE /delete_conversation
+    Backend -> DB: Delete Conversation
+    DB --> Backend: Acknowledge Deletion
+    Backend --> Frontend: Confirm Deletion
+    Frontend --> User: Show Confirmation
+
+    ' Audio Transcription Flow
+    User -> Frontend: Upload Audio
+    Frontend -> Backend: POST /transcribe
+    Backend -> AI: Transcribe Audio
+    AI -> API: Transcribe Audio
+    API --> AI: Transcription
+    AI --> Backend: Return Transcription
+    Backend --> Frontend: Provide Transcription
+    Frontend -> Backend: POST/ask
+    Backend --> Frontend: Return Response
+    Frontend --> User: Display Result
+    
+else User is Not Logged In
+    Backend --> Frontend: Return Error 401
+    Frontend --> User: Redirect to Login
+end
+
+@enduml

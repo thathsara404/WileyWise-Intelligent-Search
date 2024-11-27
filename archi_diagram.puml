@@ -1,0 +1,37 @@
+@startuml
+!theme plain
+
+' Define main architecture nodes
+actor User
+node "Frontend" {
+    [HTML Templates]
+    [CSS/JavaScript Files]
+}
+
+node "Backend" {
+    [Flask App]
+    [Utilities (Includes AI Logic)]
+}
+
+database "Redis Cache" as Redis
+database "MongoDB" as DB
+cloud "External APIs (Open AI API)" as API
+
+' Relationships
+User --> [HTML Templates]: Access UI
+[HTML Templates] --> [CSS/JavaScript Files]: Render Frontend
+[CSS/JavaScript Files] --> [Flask App]: Send API Requests
+
+[Flask App] --> [Utilities (Includes AI Logic)]: Perform Logic
+[Flask App] --> DB: Read/Write User Data
+
+[Utilities (Includes AI Logic)] --> Redis: Query for Matching Content
+[Utilities (Includes AI Logic)] --> Redis: Cache Answer
+[Utilities (Includes AI Logic)] --> API: Prompt External API
+[Utilities (Includes AI Logic)] --> [Flask App]: Provide Results
+
+Redis --> [Utilities (Includes AI Logic)]: Provide Cached Data
+API --> [Utilities (Includes AI Logic)]: Provide Answer
+DB --> [Flask App]: Provide User Data
+
+@enduml

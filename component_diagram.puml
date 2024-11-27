@@ -1,0 +1,30 @@
+@startuml
+!theme plain
+
+' Define components
+package Frontend {
+    component "HTML Templates"
+    component "CSS/JavaScript Files"
+}
+
+package Backend {
+    component "Flask App"
+    component "Utilities"
+}
+
+package Database {
+    component "In-memory object | Redis-like Cache (RediSearch -  KNN-based cosine similarity)"
+    component "Serialized python object file | Redis-like Cache (RediSearch -  KNN-based cosine similarity)"
+}
+
+component "External APIs (Open AI API)"
+
+' Define relationships
+"HTML Templates" --> "CSS/JavaScript Files"
+"CSS/JavaScript Files" --> "Flask App"
+"Flask App" --> "Utilities"
+"Flask App" --> "In-memory object | Redis-like Cache (RediSearch -  KNN-based cosine similarity)"
+"Flask App" --> "Serialized python object file | Redis-like Cache (RediSearch -  KNN-based cosine similarity)"
+"Flask App" --> "External APIs (Open AI API)"
+
+@enduml
